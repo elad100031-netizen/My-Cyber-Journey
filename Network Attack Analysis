@@ -1,0 +1,35 @@
+Cybersecurity Incident Report
+
+
+Based on the Wireshark network logs, the network interruption was caused by aDenial of Service (DoS) SYN Flood attack originating from a single source IP address: 203.0.113.0
+
+Log analysis -- 3.01 - 51.06 seconds
+
+– The logs show Normal traffic at first (logs 47-49) an employee browser established a 3 way handshake and as a result, HTTPS connection (logs 50,51).
+– We see the suspect IP address makes a proper 3 way handshake. (logs 52-54) No HTTPS follows.
+– logs 61, 64 show only two steps of a three-way handshake SYN & server answers the suspect IP with SYN, ACK but gets no ACK from, Bad actor holds half open connections.
+–TCP backlog queue becomes saturated. The server begins dropping connections:
+log 73 – RST, ACK -  reset, connection attempt dropped by the web server. log 77 – server gateway timeout.
+
+Analysis of the packet capture confirms a single-source DOS SYN flood attack originating from 203.0.113.0.
+logs 125 - 214 shows the server stops responding and the logs show only the malicious actor sending SYN packets.
+
+
+A three-way handshake:
+1. The first step – 
+The client (website visitor) sends a request to the server in order to connect or “synchronize”. This is a SYN packet. 
+
+2. The second step – 
+The web server sends the same client a SYN, ACK. meaning the web server “acknowledges” synchronize (step 1),
+an acceptance to connection and reserves resources in its memory TCP backlog queue.
+
+3. The client then sends an ACK packet which is the third and last step, meaning the visitor tells the web server it confirms the connection.
+
+
+When a malicious actor sends a large number of SYN packets all at once, the server sends back SYN, ACK, and reserves some resources for the client to connect at first, 
+waiting for an ACK from the client - A half-open connection.
+Instead of confirming connection (ACK), all of the incoming SYN packets overwhelm the server & website server becomes exhausted & unable to respond to requests.
+
+Once resources were depleted, the server could no longer process new requests, causing it to drop legitimate connections and malfunction. 
+logs 73, 77, 80 and so on…  [RST, ACK]. 
+server stops connections eventually completely.
