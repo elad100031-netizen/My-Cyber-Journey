@@ -34,3 +34,7 @@ Once resources were depleted, the server could no longer process new requests, c
 logs 73, 77, 80 and so on…  [RST, ACK]. 
 server stops connections eventually completely.
 
+Recommended steps to mitigate the issue would be:
+-- Implement a firewall rule to drop all inbound traffic from 203.0.113.0
+-- The use of SYN cookies, will not allocate server resources until connection is verifie with final ACK.
+-- Configure rate-limiting thresholds for individual IP addresses and consider routing traffic through a Cloudflare or AWS Shield style DDoS mitigation service
