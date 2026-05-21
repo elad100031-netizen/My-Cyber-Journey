@@ -33,3 +33,4 @@ Instead of confirming connection (ACK), all of the incoming SYN packets overwhel
 Once resources were depleted, the server could no longer process new requests, causing it to drop legitimate connections and malfunction. 
 logs 73, 77, 80 and so on…  [RST, ACK]. 
 server stops connections eventually completely.
+
