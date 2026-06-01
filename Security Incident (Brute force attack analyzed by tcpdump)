@@ -1,0 +1,38 @@
+Security incident report
+
+Section 1: Identify the network protocol involved in the incident
+The network protocol involved in the incident is HTTP (hyper text transfer protocol): A link in the original website leads to a different domain with a different IP and address. The brute force attacker used the link to lead clients to malware contained in the new website.
+
+Section 2: Document the incident
+A few hours after the attack customers emailed yummyrecipes helpdesk. Complaining that the company’s website prompted them to download a file to access free recipes.
+The customers claim that after running the file, the address of the website changed  and that their devices run more slowly.
+In response to this issue, the website owner tried to log in to the admin panel but failed, so he reached out to the website hosting provider.
+
+The security analyst replicated the incident using a sandbox environment, loaded the website, was prompted to press a link for free recipes and was led to a new URL.
+
+The security analyst reached the original website “yummyrecipesforme.com”, 
+Time: 14:18:32.192571 There is an IP request from his computer through port 52444 to Google DNS server,
+for the Address (A?) of the domain. (Normal connection)
+At 14:18:32.204388, google DNS server answers to my machine IP is - 203.0.113.22
+14:18:36.786501 to 14:18:36.786595:
+there’s about 5 logs of communication between my machine using port 36086 to “yummyrecipesforme.com.https” which means destination port 80 (http).
+Showing flags S, S., some ACKs (Normal connection HTTPS protocol)
+
+And then P. (push ack) showing “HTTP: GET / HTTP/1.1”
+Which is the link leading to the malware… (“free recipes”)
+
+Because right after, at 14:20:32.192571,
+my machine is sending a request to google DNS server for a domain named “greatrecipesforme.com”, and google respond has a different IP address “192.0.2.17”
+The port number from my machine changed again when communication continued between my machine and the new URL On port 80 (greatrecipesforme.com.https)
+which is the suspicious domain.
+
+The attacker used the original website and HTTP initial connection to lead clients to a malware “free recipes prompt” that led to a different IP address and website URL.
+
+A senior analyst confirmed there was a change in Javascript code that was used in the website and the downloaded file compromised users and led to the fake website.
+
+The team reports the attacker used a brute force attack to access the account and change the admin password of the web server.
+As a result of admin current default password, and no other security controls in place.
+
+Section 3: Recommend one remediation for brute force attacks
+The cybersecurity team recommends Implementing MFA for Admins and users, change passwords,
+and do not use default passwords that are easily guessed and also OPT would be beneficial for text code via phone or email for additional authentication.
